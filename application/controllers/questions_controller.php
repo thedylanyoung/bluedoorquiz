@@ -15,10 +15,9 @@ class questions_controller extends CI_Controller {
     }
 
     public function post() {
-        $data = $this->input->post();
         $this->load->model('question');
 
-        $output = [
+        $data = [
             'Question' => $this->input->post('question'),
             'Order' => $this->input->post('order'),
             'Answer' => $this->input->post('answer'),
@@ -29,7 +28,7 @@ class questions_controller extends CI_Controller {
             'LastModifiedDate' => date("Y-m-d H:i:s")
         ];
 
-        $response = $this->question->insert_quizquestion($output);
+        $response = $this->question->insert_quizquestion($data);
 
         if($response){
             $output['QuestionID'] = $response;
