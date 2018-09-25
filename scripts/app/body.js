@@ -48,17 +48,13 @@ createQuestion = function(){
         e.preventDefault();
         let inputData = $('#create-question-form').serializeArray();
 
-        // $('loading-background').show();
         QuizService.post(inputData, function(response){
             if(response.status === "success"){
-                //shows a loading screen -- normally wouldn't use setTimeout but wanted to give it time to show
-                getQuestions();
+                getQuestions(); //update questions
                 clearForm();
                 showSuccessMessage();
             }
         });
-
-        // $('loading-background').delay(2000).hide();
     });
 }
 
