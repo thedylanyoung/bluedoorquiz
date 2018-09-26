@@ -13,7 +13,7 @@ var currentQuestion = 0;
 var numCorrect = 0;
 var numIncorrect = 0;
 
-$(document).ready(function(){
+$(document).ready(function () {
     quizScreen = document.getElementById('quiz-screen');
     questionScreen = document.getElementById('question-screen');
     quizHeader = document.getElementById('quiz-jumbotron');
@@ -34,22 +34,22 @@ $(document).ready(function(){
 });
 
 //calls quizservice to get questions from server
-getQuestions = function(){
-    QuizService.getQuestions(function(data){
-        if(data.questions.length > 0){
+getQuestions = function () {
+    QuizService.getQuestions(function (data) {
+        if (data.status === 'success' && data.questions.length > 0) {
             questionsArray = data.questions;
         }
     });
 }
 
 //posts a question to the server
-createQuestion = function(){
-    $("#create-question-form").submit(function(e) {
+createQuestion = function () {
+    $("#create-question-form").submit(function (e) {
         e.preventDefault();
         let inputData = $('#create-question-form').serializeArray();
 
-        QuizService.post(inputData, function(response){
-            if(response.status === "success"){
+        QuizService.post(inputData, function (response) {
+            if (response.status === "success") {
                 getQuestions(); //update questions
                 clearForm();
                 showSuccessMessage();
@@ -58,24 +58,24 @@ createQuestion = function(){
     });
 }
 
-function clearForm(){
+function clearForm() {
     $('#answer-input').val("");
     $('#question-input').val("");
     $('#order-input').val("");
 }
 
 //shows success message after successful adding of question
-function showSuccessMessage(){
+function showSuccessMessage() {
     $('#success-message').fadeIn();
     $('#success-message').delay(5000).fadeOut();
 }
 
-function showQuestionResult(correct){
+function showQuestionResult(correct) {
     let message = document.getElementById('question-result');
-    if(correct){
+    if (correct) {
         message.className = "alert alert-success";
         message.innerText = "Correct";
-    } else{
+    } else {
         message.className = "alert alert-danger";
         message.innerText = "Incorrect"
     }
@@ -84,7 +84,7 @@ function showQuestionResult(correct){
 }
 
 //navigates to main screen
-function navigateToMain(){
+function navigateToMain() {
     quizScreen.style.display = "none";
     quizHeader.style.display = "none";
     questionScreen.style.display = "none";
@@ -94,7 +94,7 @@ function navigateToMain(){
 }
 
 //navigates to Start Quiz
-function goToQuiz(){
+function goToQuiz() {
     //make sure questions are updated
     resetQuiz();
     getQuestions();
@@ -111,7 +111,7 @@ function goToQuiz(){
 }
 
 //navigates to Add Question screen
-function navigateToQuestion(){
+function navigateToQuestion() {
     mainHeader.style.display = 'none';
     mainScreen.style.display = 'none';
     quizScreen.style.display = 'none';
@@ -122,29 +122,29 @@ function navigateToQuestion(){
 
 //checks the solution entered by the user to see if it is correct
 function checkAnswer(answer) {
-    if(answer){
-        if(answer.toLowerCase() === questionsArray[currentQuestion].Answer.toLowerCase()){
+    if (answer) {
+        if (answer.toLowerCase() === questionsArray[currentQuestion].Answer.toLowerCase()) {
             numCorrect++;
             showQuestionResult(true);
         } else {
             numIncorrect++;
             showQuestionResult(false);
-        } 
+        }
         $('#solution-input').val("");
 
         //end of the quiz
-        if(currentQuestion !== questionsArray.length - 1){
-            advanceQuestion(); 
-        } else{
+        if (currentQuestion !== questionsArray.length - 1) {
+            advanceQuestion();
+        } else {
             calculateQuizGrade();
-        }      
+        }
     } else {
-         alert("You must fill out an answer");
+        alert("You must fill out an answer");
     }
 }
 
 //calculates grade and results
-function calculateQuizGrade(){
+function calculateQuizGrade() {
     let finalGrade = Math.round((numCorrect / questionsArray.length) * 100);
     document.getElementById('final-grade').innerText = "Final Grade: " + finalGrade + "%";
     document.getElementById('correct-results').innerText = "Correct Results: " + numCorrect;
@@ -154,12 +154,12 @@ function calculateQuizGrade(){
 }
 
 //navigate to main page after quiz is finished.
-function finishQuiz(){
+function finishQuiz() {
     closeModal();
     navigateToMain();
 }
 
-function resetQuiz(){
+function resetQuiz() {
     numCorrect = 0;
     numIncorrect = 0;
     currentQuestion = 0;
@@ -170,7 +170,7 @@ function showModal() {
     modalBackground.style.display = 'block';
 }
 
-function closeModal(){
+function closeModal() {
     modal.style.display = 'none';
     modalBackground.style.display = 'none';
 }

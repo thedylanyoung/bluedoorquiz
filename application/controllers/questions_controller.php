@@ -10,7 +10,7 @@ class questions_controller extends CI_Controller {
 
         $output['questions'] = $this->question->get_quizquestions();
 
-        $output['status'] = 'success!';
+        $output['status'] = 'success';
         $this->output_to_json($output);
     }
 
